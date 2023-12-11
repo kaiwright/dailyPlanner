@@ -10,8 +10,8 @@ $("#currentDay").text(todayDate.format("dddd" + ", " + "MMMM DD"));
 for (let i = 0; i < workingHours.length; i++) {
     var timeBlock = $('<section>').addClass('time-block row p-2');;
     var hour = $('<div>').text(workingHours[i]).addClass('hour col p-2');
-    var textBlock = $('<div>').text('Empty').addClass('textarea col-8');
-    var saveBtn = $('<button>').addClass('saveBtn col');
+    var textBlock = $('<input>').attr('type', 'text').attr('value', 'Empty').addClass('textarea col-8').attr('id', 'userInput' + i);
+    var saveBtn = $('<button>').addClass('saveBtn col').attr('id', 'save'+i);
     var saveBtnIcon = $('<i>').addClass('fa fa-save');
 
     saveBtn.append(saveBtnIcon);
@@ -21,7 +21,7 @@ for (let i = 0; i < workingHours.length; i++) {
     // store the current time
     var timeNow = dayjs().format('ha')
     var blockTime = hour.text()
-    
+
     // reference against block's hour
     if (timeNow === blockTime) {
         textBlock.addClass('present');
@@ -32,7 +32,25 @@ for (let i = 0; i < workingHours.length; i++) {
     } else {
         console.log("none")
     }
+    document.getElementById('save'+ i).addEventListener('click', function () {
+        for (let i = 0; i < workingHours.length; i++) {
+            var input = document.getElementById('userInput' + i).value;
+            localStorage.setItem('userInput' + i, input)
+        }
+
+    });
+}
+
+
+window.onload = function () {
+    for (let i = 0; i < workingHours.length; i++) {
+        var input = localStorage.getItem('userInput' + i);
+        document.getElementById('userInput' + i).value = input;
+    }
+
 
 }
+
+
 
 
